@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/poi-3.13-20150929.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/poi-ooxml-3.13-20150929.jar" sourcepath="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/poi-ooxml-3.13-20150929.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/poi-ooxml-schemas-3.13-20150929.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/log4j/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/eclipse-equinox-common-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/derby.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DCF webservice framework"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

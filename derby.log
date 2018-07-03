@@ -1,0 +1,26 @@
+----------------------------------------------------------------
+Thu Jun 28 17:31:40 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0164-4705-7f29-000006e81f90 
+on database directory D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_111-b14
+user.dir=D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Jun 28 17:31:40 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance 08264012-0164-4705-7f29-000006e81f90 
+on database directory D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\PRODUCTION_CATS\CAT_MTX_DB\MTX_VERSION_9.7 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_111-b14
+user.dir=D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
