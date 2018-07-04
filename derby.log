@@ -1,27 +1,54 @@
-----------------------------------------------------------------
-Thu Jun 28 17:31:40 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0164-4705-7f29-000006e81f90 
-on database directory D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
-Loaded from file:/D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_111-b14
-user.dir=D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\
-os.name=Windows 7
-os.arch=amd64
-os.version=6.1
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Thu Jun 28 17:31:40 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance 08264012-0164-4705-7f29-000006e81f90 
-on database directory D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\PRODUCTION_CATS\CAT_MTX_DB\MTX_VERSION_9.7 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
-Loaded from file:/D:/PortableApps/EclipsePortable/App/eclipse/Data/workspace/UnusedJarFiles/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_111-b14
-user.dir=D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\
-os.name=Windows 7
-os.arch=amd64
-os.version=6.1
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
-
+Wed Jul 04 10:29:08 CEST 2018 Thread[main,5,main] Cleanup action starting
+java.sql.SQLException: Database 'D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at catalogue_browser_dao.DatabaseManager.getMainDBConnection(DatabaseManager.java:107)
+	at catalogue_browser_dao.CatalogueDAO.getLastVersionByCode(CatalogueDAO.java:426)
+	at business_rules.WarningUtil.<init>(WarningUtil.java:203)
+	at business_rules.WarningUtil.performWarningChecksOnly(WarningUtil.java:136)
+	at business_rules.WarningUtil.main(WarningUtil.java:86)
+Caused by: ERROR XJ004: Database 'D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 21 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at catalogue_browser_dao.DatabaseManager.getMainDBConnection(DatabaseManager.java:107)
+	at catalogue_browser_dao.CatalogueDAO.getLastVersionByCode(CatalogueDAO.java:426)
+	at business_rules.WarningUtil.<init>(WarningUtil.java:203)
+	at business_rules.WarningUtil.performWarningChecksOnly(WarningUtil.java:136)
+	at business_rules.WarningUtil.main(WarningUtil.java:86)
+============= end nested exception, level (1) ===========
+Cleanup action completed

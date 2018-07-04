@@ -221,7 +221,7 @@ public class WarningUtil {
 			super();
 		}
 	}
-
+	
 	public void performWarningChecks(String fullCode, boolean stdOut) throws InterruptedException {
 
 		String[] splits = fullCode.split("#");
@@ -233,7 +233,7 @@ public class WarningUtil {
 		Term baseTerm = termDao.getByCode(baseTermCode);
 
 		if (baseTerm == null) {
-			printWarning(WarningEvent.Error, baseTermCode, false, stdOut);
+			printWarning(WarningEvent.Error, "", false, stdOut);
 			return;
 		}
 
@@ -273,7 +273,7 @@ public class WarningUtil {
 			Term facet = termDao.getByCode(facetCode);
 
 			if (facet == null) {
-				printWarning(WarningEvent.Error, baseTermCode, false, stdOut);
+				printWarning(WarningEvent.Error, "", false, stdOut);
 				return;
 			}
 
