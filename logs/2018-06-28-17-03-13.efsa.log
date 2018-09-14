@@ -1,9 +1,0 @@
-2018-06-28 17:03:11,636 ERROR c.CatalogueDAO [main] DB error
-java.sql.SQLException: No suitable driver found for jdbc:derby:D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\Database\MAIN_CATS_DB;user=dbuser;password=dbuserpwd
-	at java.sql.DriverManager.getConnection(Unknown Source) ~[?:1.8.0_111]
-	at java.sql.DriverManager.getConnection(Unknown Source) ~[?:1.8.0_111]
-	at catalogue_browser_dao.DatabaseManager.getMainDBConnection(DatabaseManager.java:107) ~[bin/:?]
-	at catalogue_browser_dao.CatalogueDAO.getLastVersionByCode(CatalogueDAO.java:426) [bin/:?]
-	at business_rules.WarningUtil.<init>(WarningUtil.java:203) [bin/:?]
-	at business_rules.WarningUtil.performWarningChecksOnly(WarningUtil.java:136) [bin/:?]
-	at business_rules.WarningUtil.main(WarningUtil.java:86) [bin/:?]

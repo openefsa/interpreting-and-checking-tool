@@ -1,8 +1,0 @@
-2018-06-28 15:38:29,826 ERROR b.WarningUtil [main] Error
-java.io.FileNotFoundException: D:\PortableApps\EFSA-catalogues-browser-installer-win-64bit\app\Check\WarningInput.txt (The system cannot find the file specified)
-	at java.io.FileInputStream.open0(Native Method) ~[?:1.8.0_111]
-	at java.io.FileInputStream.open(Unknown Source) ~[?:1.8.0_111]
-	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_111]
-	at java.io.FileReader.<init>(Unknown Source) ~[?:1.8.0_111]
-	at business_rules.WarningUtil.performWarningChecksOnly(WarningUtil.java:150) [bin/:?]
-	at business_rules.WarningUtil.main(WarningUtil.java:86) [bin/:?]

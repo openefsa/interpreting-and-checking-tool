@@ -52,8 +52,6 @@ public class WarningUtil {
 
 	private ArrayList<ForbiddenProcess> forbiddenProcesses;
 
-	private WarningOptions warnOptions;
-
 	/**
 	 * Start the program by command line
 	 * 
@@ -180,7 +178,7 @@ public class WarningUtil {
 
 			// System.err.println("DONE!\nCheck completed!");
 			// wait before close
-			// Thread.sleep(5000);
+			Thread.sleep(5000);
 			return;
 
 		} catch (Exception e) {
@@ -350,7 +348,7 @@ public class WarningUtil {
 	private void loadFileData() throws InterruptedException {
 
 		forbiddenProcesses = loadForbiddenProcesses(GlobalUtil.getBRData());
-		warnOptions = loadWarningOptions(GlobalUtil.getBRColors());
+		loadWarningOptions(GlobalUtil.getBRColors());
 		warningMessages = loadWarningMessages(GlobalUtil.getBRMessages());
 	}
 
