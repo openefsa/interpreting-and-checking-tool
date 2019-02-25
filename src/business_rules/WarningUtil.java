@@ -29,12 +29,18 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ui_implicit_facet.FacetDescriptor;
 import ui_implicit_facet.FacetType;
 import utilities.GlobalUtil;
 
+/**
+ * The class uses the BR provided by the Catalogue browser
+ * in order to interpret FoodEx2 codes and check their correctness
+ * @author shahaal
+ *
+ */
 public class WarningUtil {
 
 	private static final Logger LOGGER = LogManager.getLogger(WarningUtil.class);
@@ -59,7 +65,7 @@ public class WarningUtil {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-
+		
 		try {
 			// check if another instance using the database
 			// is already running
@@ -82,8 +88,7 @@ public class WarningUtil {
 			}
 
 			WarningUtil.performWarningChecksOnly(args);
-			// wait before close
-			//Thread.sleep(5000);
+			
 			try {
 				InstanceChecker.close();
 			} catch (IOException e) {
@@ -97,9 +102,10 @@ public class WarningUtil {
 			LOGGER.error("Error", e);
 
 			System.err.println("\nERROR in Main!\n" + e.getMessage());
-			// wait before close
-			Thread.sleep(2000);
 		}
+
+		// wait before close
+		Thread.sleep(2000);
 
 		System.exit(0);
 	}
@@ -117,7 +123,7 @@ public class WarningUtil {
 		// with the absolute path
 		String workingDir = args[2];
 		GlobalUtil.setWorkingDirectory(workingDir);
-
+		
 		File input = new File(args[0]);
 		FileReader reader;
 
@@ -136,8 +142,7 @@ public class WarningUtil {
 				e.printStackTrace();
 
 				System.err.println("\nERROR!\n" + e.getMessage());
-				// wait before close
-				Thread.sleep(2000);
+				
 				return;
 			}
 
@@ -175,10 +180,8 @@ public class WarningUtil {
 
 			// close the output file
 			out.close();
-
-			// System.err.println("DONE!\nCheck completed!");
-			// wait before close
-			Thread.sleep(5000);
+			System.err.println("DONE!\nCheck completed!");
+			
 			return;
 
 		} catch (Exception e) {
@@ -187,9 +190,7 @@ public class WarningUtil {
 			LOGGER.error("Error", e);
 
 			System.err.println("GENERAL ERROR!\n" + e.getMessage());
-			// wait before close
-			Thread.sleep(2000);
-
+			
 			return;
 		}
 	}
@@ -213,8 +214,6 @@ public class WarningUtil {
 	}
 
 	public class MtxNotFoundException extends FileNotFoundException {
-		private static final long serialVersionUID = 6689235462817235011L;
-
 		public MtxNotFoundException(String mtxCode, DcfType type) {
 			super();
 		}
@@ -1441,7 +1440,7 @@ public class WarningUtil {
 
 					// get the RGB values
 					int[] rgb = parseRGB(st.nextToken(), ";");
-
+					
 					// add them to the options
 					switch (fieldName) {
 					case "SemaphoreNoWarn":
@@ -1919,10 +1918,14 @@ public class WarningUtil {
 			// string builder to build the string ( or simply a string can be used... )
 			StringBuilder sb = new StringBuilder();
 
-			sb.append("SemaphoreNoWarn = 0;255;0\r\n" + "SemaphoreLowWarn = 255;255;0\r\n"
-					+ "SemaphoreHighWarn = 255;165;0\r\n" + "SemaphoreErrorWarn = 255;0;0\r\n"
-					+ "TxtNoWarn = 0;255;0\r\n" + "TxtLowWarn = 255;255;0\r\n" + "TxtHighWarn = 255;255;255\r\n"
-					+ "TxtErrorWarn = 255;255;255\r\n" + "ConsoleBG = 0;0;0\r\n" + "WarnFontSize = 14\r\n");
+			sb.append("SemaphoreNoWarn = 0;255;0\r\n" 
+					+ "SemaphoreLowWarn = 255;255;0\r\n"
+					+ "SemaphoreHighWarn = 255;165;0\r\n"
+					+ "TxtNoWarn = 0;255;0\r\n" 
+					+ "TxtLowWarn = 255;255;0\r\n" 
+					+ "TxtHighWarn = 255;255;255\r\n"
+					+ "ConsoleBG = 0;0;0\r\n" 
+					+ "WarnFontSize = 14\r\n");
 
 			// write the string
 			out.write(sb.toString());

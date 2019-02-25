@@ -13,8 +13,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import catalogue.Catalogue;
 import catalogue_browser_dao.ParentTermDAO;
