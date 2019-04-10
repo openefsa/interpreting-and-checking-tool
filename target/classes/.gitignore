@@ -1,6 +1,3 @@
-/META-INF/
-/business_rules/
-/catalogue/
 /catalogue_browser_dao/
 /catalogue_generator/
 /catalogue_object/
@@ -13,7 +10,6 @@
 /global_manager/
 /import_catalogue/
 /instance_checker/
-/log4j2-test.xml
 /messages/
 /naming_convention/
 /open_xml_reader/
@@ -26,3 +22,5 @@
 /ui_implicit_facet/
 /user_preferences/
 /utilities/
+/META-INF/
+/business_rules/

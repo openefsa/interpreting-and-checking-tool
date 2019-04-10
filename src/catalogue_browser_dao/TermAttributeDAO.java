@@ -161,6 +161,7 @@ public class TermAttributeDAO implements CatalogueRelationDAO< TermAttribute, Te
 	/**
 	 * Get all the term attributes contained in the db
 	 */
+	@SuppressWarnings("resource")
 	public ArrayList<TermAttribute> getAll () {
 		
 		ArrayList<TermAttribute> tas = new ArrayList<>();

@@ -117,6 +117,7 @@ public class WarningUtil {
 	 * @param args
 	 * @throws InterruptedException
 	 */
+	@SuppressWarnings("resource")
 	public static void performWarningChecksOnly(String[] args) throws InterruptedException {
 
 		// set the working directory to find files
@@ -190,8 +191,6 @@ public class WarningUtil {
 			LOGGER.error("Error", e);
 
 			System.err.println("GENERAL ERROR!\n" + e.getMessage());
-			
-			return;
 		}
 	}
 
@@ -214,6 +213,11 @@ public class WarningUtil {
 	}
 
 	public class MtxNotFoundException extends FileNotFoundException {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -45955835909711360L;
+
 		public MtxNotFoundException(String mtxCode, DcfType type) {
 			super();
 		}

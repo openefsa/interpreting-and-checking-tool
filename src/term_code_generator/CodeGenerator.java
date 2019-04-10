@@ -220,6 +220,7 @@ public class CodeGenerator {
 	 * @return
 	 * @throws TermCodeException 
 	 */
+	@SuppressWarnings("resource")
 	public static String getTermCode ( String codeMask ) throws TermCodeException {
 
 		// I am preparing the selection mask

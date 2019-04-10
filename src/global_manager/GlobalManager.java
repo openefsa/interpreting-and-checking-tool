@@ -42,8 +42,7 @@ public class GlobalManager extends Observable {
 	}
 	
 	public static Catalogue getLastVersion(String catalogueCode) {
-		Config config = new Config();
-		Environment env = config.getEnvironment();
+		Environment env = Config.getEnvironment();
 		CatalogueDAO dao = new CatalogueDAO();
 		return dao.getLastVersionByCode(catalogueCode, DcfType.fromEnvironment(env));
 	}
