@@ -29,7 +29,7 @@ import utilities.GlobalUtil;
  * compression...
  * 
  * @author avonva
- *
+ * @author shahaal
  */
 public class DatabaseManager {
 

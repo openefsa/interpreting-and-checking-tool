@@ -1,2 +1,0 @@
-2019-02-06 17:26:06,603 ERROR b.WarningUtil [main] Wrong number of arguments, please check! You have to provide 5 parameters,
-that is, the input file path (collection of codes to be analysed), the output file path, and the working directory, which isthe directory where the catalogue browser files are present.Then the code of the FoodEx2 catalogue and if the FoodEx2 catalogueshould be searched in the local catalogues or not

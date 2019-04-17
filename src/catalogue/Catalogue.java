@@ -5,9 +5,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -35,8 +37,6 @@ import catalogue_object.Status.StatusValues;
 import catalogue_object.Term;
 import catalogue_object.TermAttribute;
 import catalogue_object.Version;
-import data_transformation.BooleanConverter;
-import data_transformation.DateTrimmer;
 import dcf_manager.Dcf;
 import dcf_manager.Dcf.DcfType;
 import dcf_user.User;
@@ -44,8 +44,6 @@ import detail_level.DetailLevelDAO;
 import detail_level.DetailLevelGraphics;
 import global_manager.GlobalManager;
 import messages.Messages;
-import property.SorterCatalogueObject;
-import soap.UploadCatalogueFileImpl.ReserveLevel;
 import term_code_generator.CodeGenerator;
 import term_code_generator.TermCodeException;
 import term_type.TermType;
@@ -57,9 +55,9 @@ import utilities.GlobalUtil;
  * hierarchies and attributes, term attributes and applicabilities.
  * 
  * @author avonva
- *
+ * @author shahaal
  */
-public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mappable, Cloneable, IDcfCatalogue {
+public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mappable, Cloneable {
 
 	private static final Logger LOGGER = LogManager.getLogger(Catalogue.class);
 
@@ -131,12 +129,9 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * Constructor to create a catalogue object with all its variables
 	 * 
 	 * @param id
-	 * @param code
-	 *            the catalogue code (unique)
-	 * @param name
-	 *            the catalogue name (unique)
-	 * @param label
-	 *            the catalogue label (text which is displayed)
+	 * @param code                   the catalogue code (unique)
+	 * @param name                   the catalogue name (unique)
+	 * @param label                  the catalogue label (text which is displayed)
 	 * @param scopenotes
 	 * @param termCodeMask
 	 * @param termCodeLength
@@ -183,7 +178,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		this.acceptNonStandardCodes = acceptNonStandardCodes;
 		this.generateMissingCodes = generateMissingCodes;
 		this.catalogueGroups = catalogueGroups;
-		this.dbPath = "Interpreting_Tool\\"+dbPath;
+		this.dbPath = "Interpreting_Tool\\" + dbPath;
 		this.backupDbPath = backupDbPath;
 		this.local = local;
 		this.forcedCount = forcedCount;
@@ -813,20 +808,17 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * Get all the facet hierarchies of the catalogue
 	 * 
 	 * @return
+	 * 
+	 * 		public ArrayList<Hierarchy> getFacetHierarchies() {
+	 *         ArrayList<Hierarchy> facets = new ArrayList<>(); for (Hierarchy
+	 *         hierarchy : hierarchies) { if (hierarchy.isFacet())
+	 *         facets.add(hierarchy); }
+	 * 
+	 *         // sort facets SorterCatalogueObject sorter = new
+	 *         SorterCatalogueObject(); Collections.sort(facets, sorter);
+	 * 
+	 *         return facets; }
 	 */
-	public ArrayList<Hierarchy> getFacetHierarchies() {
-		ArrayList<Hierarchy> facets = new ArrayList<>();
-		for (Hierarchy hierarchy : hierarchies) {
-			if (hierarchy.isFacet())
-				facets.add(hierarchy);
-		}
-
-		// sort facets
-		SorterCatalogueObject sorter = new SorterCatalogueObject();
-		Collections.sort(facets, sorter);
-
-		return facets;
-	}
 
 	/**
 	 * Get all the catalogue terms
@@ -955,12 +947,9 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * the selected hierarchy. The term is a complete term since we save the term,
 	 * all its attributes and its applicability.
 	 * 
-	 * @param code
-	 *            the code of the new term
-	 * @param parent
-	 *            the parent of the new term
-	 * @param hierarchy
-	 *            the hierarchy in which the term is added to the parent
+	 * @param code      the code of the new term
+	 * @param parent    the parent of the new term
+	 * @param hierarchy the hierarchy in which the term is added to the parent
 	 * @return the new term
 	 */
 	public Term addNewTerm(String code, Nameable parent, Hierarchy hierarchy) {
@@ -1013,8 +1002,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	/**
 	 * Get a term by its id
 	 * 
-	 * @param id
-	 *            the term id
+	 * @param id the term id
 	 */
 	public Term getTermById(Integer id) {
 
@@ -1093,19 +1081,6 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	}
 
 	/**
-	 * Check if the catalogue can be reserved by the current user. To check
-	 * unreservability, please use {@link isUnreservable}
-	 * 
-	 * @return
-	 */
-	public boolean isReservable() {
-
-		CatalogueStatus prob = getCatalogueStatus();
-
-		return prob == CatalogueStatus.NONE;
-	}
-
-	/**
 	 * Enum used to get the specific problem which is blocking a reserve action on
 	 * this catalogue
 	 * 
@@ -1113,45 +1088,9 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 *
 	 */
 	public enum CatalogueStatus {
-		NONE, INVALID, PENDING_ACTION_ONGOING, RESERVED_BY_CURRENT, RESERVED_BY_OTHER, NOT_LAST, LOCAL, DEPRECATED, FORCED_EDIT
+		NONE, INVALID, PENDING_ACTION_ONGOING, RESERVED_BY_CURRENT, RESERVED_BY_OTHER, NOT_LAST, LOCAL, DEPRECATED,
+		FORCED_EDIT
 	};
-
-	/**
-	 * Get the status of the catalogue
-	 * 
-	 * @return
-	 */
-	public CatalogueStatus getCatalogueStatus() {
-
-		CatalogueStatus problem = CatalogueStatus.NONE;
-
-		// if the catalogue is reserved by someone which is not me
-		// then we cannot reserve
-		boolean reservedByOther = !isReservedBy(User.getInstance()) && isReserved();
-
-		// no problem if no user had reserved the catalogue
-		// and the catalogue is the last available
-		// version of the catalogue and the catalogue
-		// is not local and it is not deprecated
-		if (isInvalid())
-			problem = CatalogueStatus.INVALID;
-		// else if ( isRequestingAction() )
-		// problem = CatalogueStatus.PENDING_ACTION_ONGOING;
-		else if (reservedByOther)
-			problem = CatalogueStatus.RESERVED_BY_OTHER;
-		else if (isReservedBy(User.getInstance()))
-			problem = CatalogueStatus.RESERVED_BY_CURRENT;
-		else if (hasUpdate())
-			problem = CatalogueStatus.NOT_LAST;
-		else if (local)
-			problem = CatalogueStatus.LOCAL;
-		else if (isDeprecated())
-			problem = CatalogueStatus.DEPRECATED;
-		// else if ( isForceEdit( username ) )
-		// problem = CatalogueStatus.FORCED_EDIT;
-
-		return problem;
-	}
 
 	/**
 	 * Get the catalogue term code mask if there is one
@@ -1251,25 +1190,6 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	}
 
 	/**
-	 * Check if the catalogue is reserved or not by the user with username passed in
-	 * input
-	 * 
-	 * @return
-	 */
-	public boolean isReservedBy(User user) {
-
-		ReservedCatalogue rc = getReservedCatalogue();
-
-		// if not present the catalogue is not reserved
-		if (rc == null)
-			return false;
-
-		// check that the user who reserved the catalogue
-		// is the one passed in input
-		return rc.getUsername().equals(user.getUsername());
-	}
-
-	/**
 	 * Set the number of times that we have forced the editing of this catalogue
 	 * 
 	 * @param forcedCount
@@ -1285,24 +1205,6 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 */
 	public int getForcedCount() {
 		return forcedCount;
-	}
-
-	/**
-	 * Get the reserve level of the catalogue if present
-	 * 
-	 * @return
-	 */
-	public ReserveLevel getReserveLevel() {
-
-		ReserveLevel level = null;
-
-		ReservedCatalogue rc = getReservedCatalogue();
-
-		// if catalogue is reserved get the level
-		if (rc != null)
-			level = rc.getLevel();
-
-		return level;
 	}
 
 	/**
@@ -1518,9 +1420,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * the folder will be code + "_VERSION_" + version for local catalogues instead
 	 * we use only the code (the version is not applicable)
 	 * 
-	 * @param dbDir,
-	 *            the folder in which we will create the catalogue folder and then
-	 *            the database
+	 * @param         dbDir, the folder in which we will create the catalogue folder
+	 *                and then the database
 	 * @param code
 	 * @param version
 	 * @param local
@@ -1587,8 +1488,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * syntax is the following:
 	 * scopenotes$[tokenKey1=value1,value2,...][tokenKey2=value1,value2,...]...
 	 * 
-	 * @param key
-	 *            the key of the token we are interested in
+	 * @param key the key of the token we are interested in
 	 * @return the list of token values comma separated
 	 */
 	private String getTokenByKey(String key) {
@@ -1738,21 +1638,21 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			break;
 		case "CAT_LAST_UPDATE":
 			if (getLastUpdate() != null)
-				value = DateTrimmer.dateToString(getLastUpdate());
+				value = dateToString(getLastUpdate());
 			break;
 		case "CAT_VALID_FROM":
 			if (getValidFrom() != null)
-				value = DateTrimmer.dateToString(getValidFrom());
+				value = dateToString(getValidFrom());
 			break;
 		case "CAT_VALID_TO":
 			if (getValidTo() != null)
-				value = DateTrimmer.dateToString(getValidTo());
+				value = dateToString(getValidTo());
 			break;
 		case "CAT_STATUS":
 			value = getStatus();
 			break;
 		case "CAT_DEPRECATED":
-			value = BooleanConverter.toNumericBoolean(String.valueOf(isDeprecated()));
+			value = toNumericBoolean(String.valueOf(isDeprecated()));
 			break;
 		case "CAT_RN_DESCRIPTION":
 			if (releaseNotes != null && releaseNotes.getDescription() != null)
@@ -1760,7 +1660,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			break;
 		case "CAT_RN_VERSION_DATE":
 			if (releaseNotes != null && releaseNotes.getDate() != null)
-				value = DateTrimmer.dateToString(releaseNotes.getDate());
+				value = dateToString(releaseNotes.getDate());
 			break;
 		case "CAT_RN_INTERNAL_VERSION":
 			if (releaseNotes != null && releaseNotes.getInternalVersion() != null)
@@ -2099,34 +1999,39 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		boolean sameCode = getCode().equals(((Catalogue) cat).getCode());
 		return sameCode;
 	}
+	
+	/**
+	 * Convert a textual boolean (true/false) into a numerical boolean (1/0).
+	 * @param value
+	 * @return
+	 */
+	private String toNumericBoolean ( String value ) {
 
-	@Override
-	public void setTermCodeMask(String termCodeMask) {
-		this.termCodeMask = termCodeMask;
+		String booleanValue = null;
+		
+		switch ( value ) {
+		case "true":
+			booleanValue = "1"; break;
+		case "false":
+			booleanValue = "0"; break;
+		default:
+			booleanValue = value; break;
+		}
+		
+		return booleanValue;
 	}
-
-	@Override
-	public void setTermCodeLength(int termCodeLength) {
-		this.termCodeLength = termCodeLength;
-	}
-
-	@Override
-	public void setTermMinCode(String termMinCode) {
-		this.termMinCode = termMinCode;
-	}
-
-	@Override
-	public void setAcceptNonStandardCodes(boolean acceptNonStandardCodes) {
-		this.acceptNonStandardCodes = acceptNonStandardCodes;
-	}
-
-	@Override
-	public void setGenerateMissingCodes(boolean generateMissingCodes) {
-		this.generateMissingCodes = generateMissingCodes;
-	}
-
-	@Override
-	public void setCatalogueGroups(String catalogueGroups) {
-		this.catalogueGroups = catalogueGroups;
+	
+	/**
+	 * Convert a date into string with yyyy/MM/dd format
+	 * @param date
+	 * @return
+	 */
+	private String dateToString ( Date date ) {
+		
+		if ( date == null )
+			return "";
+		
+		DateFormat format = new SimpleDateFormat( "yyyy/MM/dd" );
+		return format.format( date );
 	}
 }
