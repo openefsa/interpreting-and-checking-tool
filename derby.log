@@ -1,0 +1,26 @@
+----------------------------------------------------------------
+Tue Jul 30 16:40:58 CEST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-016c-4353-c33c-000006bc0ff8 
+on database directory D:\PortableApps\Tests\CB\CB_latest_official\app\Interpreting_Tool\Database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/shahaal/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_111-b14
+user.dir=D:\PortableApps\Tests\CB\CB_latest_official\app\
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Jul 30 16:40:59 CEST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 08264012-016c-4353-c33c-000006bc0ff8 
+on database directory D:\PortableApps\Tests\CB\CB_latest_official\app\Interpreting_Tool\Database\PRODUCTION_CATS\CAT_MTX_DB\MTX_VERSION_10.0 with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/shahaal/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_111-b14
+user.dir=D:\PortableApps\Tests\CB\CB_latest_official\app\
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

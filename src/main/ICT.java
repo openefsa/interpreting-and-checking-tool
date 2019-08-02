@@ -27,6 +27,7 @@ import utilities.GlobalUtil;
 public class ICT extends TermRules {
 
 	private static final Logger LOGGER = LogManager.getLogger(ICT.class);
+	private static int percent;
 
 	/**
 	 * Start the program by command line used from ICT
@@ -62,7 +63,7 @@ public class ICT extends TermRules {
 
 			String mtxCode = args[3];
 			boolean local = getBoolean(args[4]);
-			
+
 			// start the warning utils with the mtx catalogue
 			ICT warnUtil = new ICT(mtxCode, local);
 
@@ -82,32 +83,39 @@ public class ICT extends TermRules {
 			long totLines = Files.lines(path).count();
 
 			System.err.println("\n+++++++++++++++++++ ANALYZING FOODEX2 CODES +++++++++++++++++++\n");
+			
+			// 10 % of total amount
+			int step = (int) (totLines * 0.1);
+			int tempValue = step;
+			
+			// percentage to show
+			percent = 0;
 
-			int calc = (int) totLines / 100;
-			int percent = 0;
-			int step = 10;
-			int tempValue = calc;
-
+			// print percentage
+			System.err.print(percent + "% ");
+			
 			// for each code perform the warning checks
 			while ((line = buffReader.readLine()) != null) {
 
-				// print each step
-				if (lineCount >= tempValue && percent <= 100) {
-					System.err.print(percent + "% ");
-					percent += step;
-					tempValue += calc;
+				// print each 10%
+				if (lineCount >= tempValue) {
+					tempValue += step;
+					printPercentage();
 				}
-				
+
 				// add a separator among the warnings related to different codes
-				if (lineCount != 0) {
+				if (lineCount != 0)
 					System.out.println();
-				}
 
 				// perform the warnings checks for the current code
-				warnUtil.performWarningChecks(line, true);
+				warnUtil.performWarningChecks(line, true, true);
 				lineCount++;
 			}
-
+			
+			// complete the percentage if not finished
+			while(percent < 100) 
+				printPercentage();
+			
 			// close the input file
 			buffReader.close();
 
@@ -126,6 +134,16 @@ public class ICT extends TermRules {
 		// wait before close
 		Thread.sleep(2000);
 
+	}
+	
+	/**
+	 * method used to print the percentage in the shell
+	 * 
+	 * @author shahaal
+	 */
+	private static void printPercentage() {
+		percent += 10;
+		System.err.print(percent + "% ");
 	}
 
 	public ICT(String mtxCode, boolean local) throws ICT.MtxNotFoundException, InterruptedException {
@@ -163,7 +181,7 @@ public class ICT extends TermRules {
 		warningMessages = loadWarningMessages(GlobalUtil.getBRMessages());
 
 	}
-	
+
 	/**
 	 * Print the warning messages
 	 * 
@@ -173,10 +191,10 @@ public class ICT extends TermRules {
 	 * @param stdOut
 	 */
 	protected void printWarning(WarningEvent event, String postMessageString, boolean attachDatetime, boolean stdOut) {
-		
+
 		// create the warning message to be printed
 		String message = createMessage(event, postMessageString, attachDatetime);
-		
+
 		// get the warning levels for making colours
 		WarningLevel semaphoreLevel = getSemaphoreLevel(event);
 		WarningLevel textWarningLevel = getTextLevel(event);
@@ -199,15 +217,17 @@ public class ICT extends TermRules {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Return true if the string value is either true or 1, otherwise false.
+	 * 
 	 * @param value
 	 * @return
 	 */
-	private static boolean getBoolean( String value ) {
-		if ( value.equals("true") || value.equals("1") || value.equals("YES") )
+	private static boolean getBoolean(String value) {
+		if (value.equals("true") || value.equals("1") || value.equals("YES"))
 			return true;
-		else return false;
+		else
+			return false;
 	}
 }

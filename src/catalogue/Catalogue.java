@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import javax.xml.soap.SOAPException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,7 +69,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	public static final String NOT_APPLICABLE_VERSION = "Not applicable";
 	public static final String LOCAL_CATALOGUE_STATUS = "Local catalogue";
 
-	// the catalogue version is specialized, we need to
+	// the catalogue version is specialised, we need to
 	// manage it separately from the standard Version
 	CatalogueVersion version;
 
@@ -612,6 +613,44 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	}
 
 	/**
+	 * Get an attribute by its name
+	 * 
+	 * @author shahaal
+	 * @param name
+	 * @return
+	 */
+	public Attribute getAttributeByName(String name) {
+
+		Attribute attr = null;
+
+		for (Attribute a : attributes) {
+			if (a.getName().equals(name))
+				attr = a;
+		}
+
+		return attr;
+	}
+
+	/**
+	 * Get an attribute by its code
+	 * 
+	 * @author shahaal
+	 * @param code
+	 * @return
+	 */
+	public Attribute getAttributeByCode(String code) {
+
+		Attribute attr = null;
+		
+		for (Attribute a : attributes) {
+			if (a.getCode().equals(code))
+				attr = a;
+		}
+
+		return attr;
+	}
+	
+	/**
 	 * Add a new term into the hashmap of terms
 	 * 
 	 * @param id
@@ -937,7 +976,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	public Term addNewTerm(Nameable parent, Hierarchy hierarchy) throws TermCodeException {
 
 		// get the a new code for the term using the catalogue term code mask
-		String code = CodeGenerator.getTermCode(termCodeMask);
+		CodeGenerator generator = new CodeGenerator();
+		String code = generator.getTermCode(termCodeMask);
 
 		return addNewTerm(code, parent, hierarchy);
 	}
