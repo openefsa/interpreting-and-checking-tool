@@ -28,8 +28,9 @@ import utilities.GlobalUtil;
  * Manager which manages physical actions on the db, as backups, db
  * compression...
  * 
- * @author avonva
  * @author shahaal
+ * @author avonva
+ *
  */
 public class DatabaseManager {
 
@@ -50,6 +51,12 @@ public class DatabaseManager {
 	 * Where the production catalogues are stored
 	 */
 	public static final String PRODUCTION_CAT_DB_FOLDER = OFFICIAL_CAT_DB_FOLDER + "PRODUCTION_CATS";
+
+	/**
+	 * Where the mtx catalogue is stored (in production)
+	 */
+	public static final String MTX_CAT_DB_FOLDER = PRODUCTION_CAT_DB_FOLDER + System.getProperty("file.separator")
+			+ "CAT_MTX_DB";
 
 	/**
 	 * Where the test catalogues are stored
@@ -75,6 +82,7 @@ public class DatabaseManager {
 	public static String getMainDBURL() {
 		return "jdbc:derby:" + GlobalUtil.getWorkingDir() + OFFICIAL_CAT_DB_FOLDER + MAIN_CAT_DB_FOLDER_NAME
 				+ ";user=dbuser;password=dbuserpwd";
+
 	}
 
 	/**
@@ -118,7 +126,7 @@ public class DatabaseManager {
 		// set a "create" connection
 		try (Connection con = DriverManager.getConnection(createMainDBURL());
 				SQLExecutor executor = new SQLExecutor(con);) {
-			executor.exec(ClassLoader.getSystemResourceAsStream("createMainDB"));
+			executor.exec(ClassLoader.getSystemResourceAsStream("SQL/createMainDB"));
 		}
 
 		// insert the default preferences into the main
@@ -138,7 +146,7 @@ public class DatabaseManager {
 	 */
 	public static void startMainDB() throws SQLException, IOException {
 
-		try (Connection con = getMainDBConnection();) {
+		try (Connection con = getMainDBConnection()) {
 
 			// load the jdbc driver
 			LOGGER.info("Starting embedded database...");
@@ -197,7 +205,7 @@ public class DatabaseManager {
 				// set a "create" connection
 				try (Connection con = DriverManager.getConnection(getMainDBURL());
 						SQLExecutor executor = new SQLExecutor(con);) {
-					executor.exec(ClassLoader.getSystemResourceAsStream("Users"));
+					executor.exec(ClassLoader.getSystemResourceAsStream("SQL/Users"));
 				}
 			}
 
@@ -206,7 +214,9 @@ public class DatabaseManager {
 	}
 
 	/**
-	 * Compress the database to avoid fragmentation TODO insert missing tables
+	 * Compress the database to avoid fragmentation
+	 * 
+	 * TODO insert missing tables
 	 */
 	public static void compressDatabase() {
 
@@ -301,10 +311,8 @@ public class DatabaseManager {
 	/**
 	 * Backup a catalogue database into the backup dir
 	 * 
-	 * @param catalogue
-	 *            the catalogue we want to backup
-	 * @param backupDir
-	 *            the directory in which the backup will be created
+	 * @param catalogue the catalogue we want to backup
+	 * @param backupDir the directory in which the backup will be created
 	 * @throws SQLException
 	 */
 	public static void backupCatalogue(Catalogue catalogue, String backupDir) throws SQLException {
@@ -404,10 +412,8 @@ public class DatabaseManager {
 	/**
 	 * Copy a folder and its files into another path
 	 * 
-	 * @param sourcePath
-	 *            the source folder
-	 * @param destPath
-	 *            the destination folder
+	 * @param sourcePath the source folder
+	 * @param destPath   the destination folder
 	 * @throws IOException
 	 */
 	public static void copyFileInto(String sourcePath, String destPath) throws IOException {
@@ -424,10 +430,8 @@ public class DatabaseManager {
 	/**
 	 * Copy an entire folder (source) into the destination folder
 	 * 
-	 * @param source
-	 *            the path of the source folder
-	 * @param destination
-	 *            the path of the destination folder
+	 * @param source      the path of the source folder
+	 * @param destination the path of the destination folder
 	 * @throws IOException
 	 */
 	public static void copyFolder(String source, String destination) throws IOException {
@@ -437,10 +441,8 @@ public class DatabaseManager {
 	/**
 	 * Copy an entire folder (source) into the destination folder
 	 * 
-	 * @param source
-	 *            file identifing the source folder
-	 * @param destination
-	 *            file identifing the destination folder
+	 * @param source      file identifing the source folder
+	 * @param destination file identifing the destination folder
 	 * @throws IOException
 	 */
 	public static void copyFolder(File source, File destination) throws IOException {
@@ -540,7 +542,7 @@ public class DatabaseManager {
 			// otherwise the database will not be created
 
 			// create the catalogue db structure
-			executor.exec(ClassLoader.getSystemResourceAsStream("createCatalogueDB"));
+			executor.exec(ClassLoader.getSystemResourceAsStream("SQL/createCatalogueDB"));
 
 			// close the connection
 			con.close();

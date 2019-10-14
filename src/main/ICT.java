@@ -1,8 +1,5 @@
 package main;
 
-import catalogue.Catalogue;
-import catalogue_browser_dao.CatalogueDAO;
-import dcf_manager.Dcf.DcfType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import business_rules.TermRules;
+import catalogue.Catalogue;
+import catalogue_browser_dao.CatalogueDAO;
+import dcf_manager.Dcf.DcfType;
 import utilities.GlobalUtil;
 
 /**
