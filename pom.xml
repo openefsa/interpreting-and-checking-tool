@@ -2,11 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>openefsa</groupId>
-		<artifactId>all-projects</artifactId>
-		<version>${global.version}</version>
-	</parent>
+	<groupId>openefsa</groupId>
+	<version>1.2.7</version>
 	<artifactId>interpreting-and-checking-tool</artifactId>
 
 	<properties>
@@ -17,23 +14,20 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>openefsa</groupId>
-			<artifactId>catalogue-browser</artifactId>
-			<version>${global.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>openefsa</groupId>
-			<artifactId>sql-script-executor</artifactId>
-			<version>${global.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			</dependency>
+			<version>[2.12.1,)</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			</dependency>
+			<version>[2.12.1,)</version>
+		</dependency>
+		<dependency>
+			<groupId>me.tongfei</groupId>
+			<artifactId>progressbar</artifactId>
+			<version>0.8.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -49,7 +43,7 @@
 				<directory>src/test/resources</directory>
 			</testResource>
 		</testResources>
-		
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -74,5 +68,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build> 
+	</build>
 </project>

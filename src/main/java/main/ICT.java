@@ -9,13 +9,12 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import business_rules.TermRules;
 import catalogue.Catalogue;
 import catalogue_browser_dao.CatalogueDAO;
 import dcf_manager.Dcf.DcfType;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarStyle;
 import utilities.GlobalUtil;
 
 /**
@@ -25,9 +24,6 @@ import utilities.GlobalUtil;
  * @author shahaal
  */
 public class ICT extends TermRules {
-
-	private static final Logger LOGGER = LogManager.getLogger(ICT.class);
-	private static int percent;
 
 	/**
 	 * Start the program by command line used from ICT
@@ -41,12 +37,6 @@ public class ICT extends TermRules {
 
 			// argument checks
 			if (args.length != 5) {
-				LOGGER.error("Wrong number of arguments, please check!\n"
-						+ "You have to provide 5 parameters which are:\n"
-						+ " - the input file path (list of codes to be analysed),\n" + " - the output file path,\n"
-						+ " - the Catalogue browser directory,\n" + " - the FoodEx2 catalogue in excel,\n"
-						+ " - the flag (yes or not) for searching the catalogue locally or not.");
-
 				System.err.println(
 						"\nERROR!\nWrong number of parameters passed to app.jar. Expected 5, found  " + args.length);
 
@@ -75,75 +65,46 @@ public class ICT extends TermRules {
 			FileReader reader = new FileReader(input);
 			BufferedReader buffReader = new BufferedReader(reader);
 
-			String line;
 			int lineCount = 0;
+
+			System.err.println("\n+++++++++++++++++++ ANALYZING FOODEX2 CODES +++++++++++++++++++\n");
 
 			// read the number of lines for the progress bar
 			Path path = Paths.get(input.getAbsolutePath());
 			long totLines = Files.lines(path).count();
 
-			System.err.println("\n+++++++++++++++++++ ANALYZING FOODEX2 CODES +++++++++++++++++++\n");
-			
-			// 10 % of total amount
-			int step = (int) (totLines * 0.1);
-			int tempValue = step;
-			
-			// percentage to show
-			percent = 0;
+			// try-with-resource block
+			try (ProgressBar pb = new ProgressBar("Analysing", totLines, ProgressBarStyle.ASCII)) {
+				String line;
+				// for each code perform the warning checks
+				while ((line = buffReader.readLine()) != null) {
 
-			// print percentage
-			System.err.print(percent + "% ");
-			
-			// for each code perform the warning checks
-			while ((line = buffReader.readLine()) != null) {
+					// add a separator among the warnings related to different codes
+					if (lineCount != 0)
+						System.out.println();
 
-				// print each 10%
-				if (lineCount >= tempValue) {
-					tempValue += step;
-					printPercentage();
+					// perform the warnings checks for the current code
+					warnUtil.performWarningChecks(line, true, true);
+					lineCount++;
+					// print progress bar
+					pb.step();
 				}
-
-				// add a separator among the warnings related to different codes
-				if (lineCount != 0)
-					System.out.println();
-
-				// perform the warnings checks for the current code
-				warnUtil.performWarningChecks(line, true, true);
-				lineCount++;
 			}
-			
-			// complete the percentage if not finished
-			while(percent < 100) 
-				printPercentage();
-			
+
 			// close the input file
 			buffReader.close();
-
 			// close the output file
 			out.close();
 			System.err.println("\nAll the FoodEx2 codes has been analysed!");
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
-			LOGGER.error("Error", e);
-
 			System.err.println("\nERROR in Main!\n" + e.getMessage());
 		}
 
 		// wait before close
 		Thread.sleep(2000);
 
-	}
-	
-	/**
-	 * method used to print the percentage in the shell
-	 * 
-	 * @author shahaal
-	 */
-	private static void printPercentage() {
-		percent += 10;
-		System.err.print(percent + "% ");
 	}
 
 	public ICT(String mtxCode, boolean local) throws ICT.MtxNotFoundException, InterruptedException {
@@ -203,7 +164,7 @@ public class ICT extends TermRules {
 		// CSV line semicolon separated
 		// do not print the base term successfully added warning! It is useless for the
 		// excel macro
-		if (stdOut && event != WarningEvent.BaseTermSuccessfullyAdded) {
+		if (stdOut && event != WarningEvent.BR22) {
 
 			StringBuilder sb = new StringBuilder();
 			sb.append(message);
