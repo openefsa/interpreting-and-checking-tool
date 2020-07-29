@@ -1,0 +1,12 @@
+----------------------------------------------------------------
+Tue Jul 28 17:36:54 CEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0173-9611-c587-00000c20bf40 
+on database directory C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\Interpreting_Tool\database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/C:/Users/alban.shahaj/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_221-b11
+user.dir=C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null

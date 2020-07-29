@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -71,7 +72,7 @@ public class ICT extends TermRules {
 
 			// read the number of lines for the progress bar
 			Path path = Paths.get(input.getAbsolutePath());
-			long totLines = Files.lines(path).count();
+			long totLines = Files.lines(path, StandardCharsets.ISO_8859_1).count();
 
 			// try-with-resource block
 			try (ProgressBar pb = new ProgressBar("Analysing", totLines, ProgressBarStyle.ASCII)) {
@@ -140,7 +141,6 @@ public class ICT extends TermRules {
 
 		forbiddenProcesses = loadForbiddenProcesses(GlobalUtil.getBRData());
 		warningMessages = loadWarningMessages(GlobalUtil.getBRMessages());
-
 	}
 
 	/**
