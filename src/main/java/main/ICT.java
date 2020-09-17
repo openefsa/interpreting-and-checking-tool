@@ -160,10 +160,7 @@ public class ICT extends TermRules {
 		WarningLevel semaphoreLevel = getSemaphoreLevel(event);
 		WarningLevel textWarningLevel = getTextLevel(event);
 
-		// if the message should be printed into the standard output
-		// CSV line semicolon separated
-		// do not print the base term successfully added warning! It is useless for the
-		// excel macro
+		// do not print the base term successfully added warning if in stdout
 		if (stdOut && event != WarningEvent.BR22) {
 
 			StringBuilder sb = new StringBuilder();
@@ -190,5 +187,11 @@ public class ICT extends TermRules {
 			return true;
 		else
 			return false;
+	}
+
+	@Override
+	protected boolean highWarningsPresent() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
