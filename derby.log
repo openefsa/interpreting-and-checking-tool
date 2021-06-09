@@ -1,24 +1,24 @@
 ----------------------------------------------------------------
-Thu Sep 17 14:54:15 CEST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0174-9c21-3261-00000c793768 
-on database directory C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\Interpreting_Tool\database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jun 09 16:02:04 CEST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0179-f114-838d-00000c589c88 
+on database directory D:\ProgramFiles\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\database\MAIN_CATS_DB with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/alban.shahaj/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_221-b11
-user.dir=C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\
+user.dir=D:\ProgramFiles\EFSA-catalogues-browser-installer-win-64bit\app\
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Thu Sep 17 14:54:16 CEST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 08264012-0174-9c21-3261-00000c793768 
-on database directory C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\Interpreting_Tool\database\PRODUCTION_CATS\CAT_MTX_DB\MTX_VERSION_11.2 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Wed Jun 09 16:02:04 CEST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 08264012-0179-f114-838d-00000c589c88 
+on database directory D:\ProgramFiles\EFSA-catalogues-browser-installer-win-64bit\app\Interpreting_Tool\database\PRODUCTION_CATS\CAT_MTX_DB\MTX_VERSION_12.0 with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/C:/Users/alban.shahaj/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_221-b11
-user.dir=C:\Users\alban.shahaj\Desktop\cb_ict_update\cb_test\app\
+user.dir=D:\ProgramFiles\EFSA-catalogues-browser-installer-win-64bit\app\
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
