@@ -247,8 +247,8 @@ public class DatabaseManager {
 			con.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("DB error", e);
+			e.printStackTrace();
 		}
 	}
 
@@ -260,7 +260,8 @@ public class DatabaseManager {
 			LOGGER.info("Stopping database...");
 			DriverManager.getConnection(stopMainDBURL());
 		} catch (SQLException e) {
-			LOGGER.info("Database disconnected");
+			LOGGER.error("Database disconnected");
+			e.printStackTrace();
 		}
 	}
 
@@ -279,6 +280,7 @@ public class DatabaseManager {
 		// create the directory
 		GlobalUtil.createDirectory(path);
 
+		LOGGER.info("A path for the db which will contain the catalogue data is " + path);
 		// return the path
 		return path;
 	}
@@ -556,11 +558,13 @@ public class DatabaseManager {
 				try (Connection con2 = DriverManager.getConnection(dbURL + ";shutdown=true");) {
 				}
 			} catch (Exception e) {
+				LOGGER.error("Error upon closing connection", e);
+				e.printStackTrace();
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 			LOGGER.error("DB error", e);
+			e.printStackTrace();
 		}
 	}
 }
