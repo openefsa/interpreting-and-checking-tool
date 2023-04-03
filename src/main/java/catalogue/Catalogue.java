@@ -172,6 +172,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		try {
 			this.termCodeLength = Integer.parseInt(termCodeLength);
 		} catch (NumberFormatException e) {
+			LOGGER.error("There was a problem converting term code length " + termCodeLength + " to integer", e);
 			this.termCodeLength = 0;
 		}
 
@@ -263,6 +264,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			baseThread.join();
 			termThread.join();
 		} catch (InterruptedException e1) {
+			LOGGER.error("There were errors regarding basic data and the terms" , e1);
 			e1.printStackTrace();
 		}
 
@@ -291,8 +293,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			taThread.join();
 			applThread.join();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 			LOGGER.error("Refresh failed for catalogue=" + this, e);
+			e.printStackTrace();
 		}
 	}
 
@@ -333,6 +335,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 				newVersion, getLastUpdate(), getValidFrom(), getValidTo(), getStatus(), catalogueGroups, isDeprecated(),
 				null, backupDbPath, local, 0, releaseNotes);
 
+		LOGGER.info("Cloned catalogue :" + catalogue);
 		return catalogue;
 	}
 
@@ -395,8 +398,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		try {
 			DriverManager.getConnection(getShutdownDBURL());
 		} catch (SQLException e) {
-			LOGGER.info("System shutted down with code : " + e.getErrorCode() + " and state " + e.getSQLState());
-			LOGGER.info("Correct shutdown has code 45000 and state 08006 or XJ004");
+			LOGGER.error("System shutted down with code : " + e.getErrorCode() + " and state " + e.getSQLState());
+			LOGGER.error("Correct shutdown has code 45000 and state 08006 or XJ004");
 		}
 	}
 
@@ -608,7 +611,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (a.getId() == id)
 				attr = a;
 		}
-
+		LOGGER.info("Attribute :" + attr);
 		return attr;
 	}
 
@@ -627,7 +630,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (a.getName().equals(name))
 				attr = a;
 		}
-
+		LOGGER.info("Attribute :" + attr);
 		return attr;
 	}
 
@@ -646,7 +649,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (a.getCode().equals(code))
 				attr = a;
 		}
-
+		LOGGER.info("Attribute :" + attr);
 		return attr;
 	}
 	
@@ -799,7 +802,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (type.getId() == id)
 				tt = type;
 		}
-
+		LOGGER.info("Term type :" + tt);
 		return tt;
 	}
 
@@ -809,6 +812,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public TermType getDefaultTermType() {
+		LOGGER.info("Default term type: " + defaultTermType);
 		return defaultTermType;
 	}
 
@@ -874,6 +878,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public ArrayList<Attribute> getAttributes() {
+		LOGGER.info("Attributes " + attributes);
 		return attributes;
 	}
 
@@ -889,7 +894,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (attr.isGeneric())
 				attrs.add(attr);
 		}
-
+		LOGGER.info("Generic attributes " + attributes);
 		return attrs;
 	}
 
@@ -899,6 +904,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public ArrayList<Attribute> getFacetCategories() {
+		LOGGER.info("Facet categories " + facetCategories);
 		return facetCategories;
 	}
 
@@ -923,7 +929,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			if (!notUsed.contains(attr.getHierarchy()))
 				categories.add(attr);
 		}
-
+		
+		LOGGER.info("In use facet categories " + facetCategories);
 		return categories;
 	}
 
@@ -951,6 +958,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public ArrayList<TermType> getTermTypes() {
+		LOGGER.info("Term types of the catalogue: " + facetCategories);
 		return termTypes;
 	}
 
@@ -1035,7 +1043,8 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 
 		// update also the ids cache
 		termsIds.put(code, id);
-
+		
+		LOGGER.info("The new term is " + child);
 		return child;
 	}
 
@@ -1054,6 +1063,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 
 		// get the term with the key
 		// if not found => null
+		LOGGER.info("Term " + term + " was found by id " + id);
 		return term;
 	}
 
@@ -1147,6 +1157,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public int getTermCodeLength() {
+		LOGGER.info("The catalogue term code length: " + termCodeLength);
 		return termCodeLength;
 	}
 
@@ -1156,6 +1167,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public String getTermMinCode() {
+		LOGGER.info("The code which is the starting point for creating new codes :" + termMinCode);
 		return termMinCode;
 	}
 
@@ -1165,6 +1177,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public boolean isAcceptNonStandardCodes() {
+		LOGGER.info("The catalogue accepts non standard codes for the terms :" + acceptNonStandardCodes);
 		return acceptNonStandardCodes;
 	}
 
@@ -1174,6 +1187,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public boolean isGenerateMissingCodes() {
+		LOGGER.info("The catalogue can generate missing codes :" + generateMissingCodes);
 		return generateMissingCodes;
 	}
 
@@ -1244,6 +1258,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 	 * @return
 	 */
 	public int getForcedCount() {
+		LOGGER.info("We had forced the editing of this catalogue: " + forcedCount + " many times");
 		return forcedCount;
 	}
 
@@ -1262,6 +1277,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		if (rc != null)
 			username = rc.getUsername();
 
+		LOGGER.info("The username of the user who reserved the catalogue: " + username);
 		return username;
 	}
 
@@ -1278,6 +1294,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		if (rc != null)
 			note = rc.getNote();
 
+		LOGGER.info("The reserve note if present: " + note);
 		return note;
 	}
 
@@ -1373,6 +1390,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		else
 			folder = DatabaseManager.TEST_CAT_DB_FOLDER;
 
+		LOGGER.info("Then main folder which contains the catalogue database: " + folder);
 		return folder;
 	}
 
@@ -1407,6 +1425,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		if (dbPath == null)
 			dbPath = computeDbPath();
 
+		LOGGER.info("The catalogue db path: " + dbPath);
 		return dbPath;
 	}
 
@@ -1429,6 +1448,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		// name of the catalogue db
 		String dbName = getCode() + "_VERSION_" + version.getVersion();
 
+		LOGGER.info("The complete database path of the catalogue: " + path + dbName);
 		return path + dbName;
 	}
 
@@ -1895,6 +1915,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 				incorrectTerm = term;
 		}
 
+		LOGGER.info("The contents of the catalogue are correct and follows the catalogue: " + incorrectTerm);
 		return incorrectTerm;
 	}
 
@@ -1915,8 +1936,10 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 		boolean sameCode = this.equals(catalogue);
 
 		boolean olderVersion = version.compareTo(catalogue.getCatalogueVersion()) > 0;
-
-		return sameCode && olderVersion;
+		
+		boolean isOlder = sameCode && olderVersion;
+		LOGGER.info("This catalogue is an older version of the catalogue passed in input: " + isOlder);
+		return isOlder;
 	}
 
 	/**
@@ -1984,7 +2007,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			}
 		}
 		;
-
+		LOGGER.info("The last release of the catalogue is already downloaded: " + alreadyDownloaded);
 		return alreadyDownloaded;
 	}
 
@@ -2026,7 +2049,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 
 		boolean sameCode = getCode().equals(catalogue.getCode());
 		boolean sameVers = getVersion().equals(catalogue.getVersion());
-
+		
 		return sameCode && sameVers;
 	}
 
@@ -2072,6 +2095,9 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 			return "";
 		
 		DateFormat format = new SimpleDateFormat( "yyyy/MM/dd" );
-		return format.format( date );
+		String formattedDate = format.format( date );
+		
+		LOGGER.info("The date " + date + " has been converted successfully to yyyy/MM/dd format: " + formattedDate);
+		return formattedDate;
 	}
 }
