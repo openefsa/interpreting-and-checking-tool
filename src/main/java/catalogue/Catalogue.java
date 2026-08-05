@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -249,6 +250,7 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 
 			@Override
 			public void run() {
+				updateStatistics();
 				refreshTerms();
 			}
 		});
@@ -477,6 +479,17 @@ public class Catalogue extends BaseObject implements Comparable<Catalogue>, Mapp
 
 		// initialize the hierarchies
 		hierarchies = hierDao.getAll();
+	}
+	public void updateStatistics()  {
+		try (Connection con = this.getConnection();
+			     Statement stmt = con.createStatement()) {
+
+			    stmt.execute("CALL SYSCS_UTIL.SYSCS_UPDATE_STATISTICS('APP','TERM',NULL)");
+			    stmt.execute("CALL SYSCS_UTIL.SYSCS_UPDATE_STATISTICS('APP','PARENT_TERM',NULL)");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.error("DB error", e);
+		}
 	}
 
 	/**
